@@ -11,11 +11,9 @@ def app():
     print('- O arquivo deve estar no diretorio da execucao do programa')
     print('- A extensao do mesmo deve ser digitada junto\n')
     cipFile = read(input())
-    print(cipFile)                                                            #DEBBUGING THINGS N' SHIT
-    print(len(cipFile))
     if not verifySize(cipFile): error(2)
-    print('passei')
-    getKeySize(cipFile)
+    keySize = getKeySize(cipFile)
+    print('Keysize = ' + str(keySize))
 
 if __name__ == "__main__":
     app()

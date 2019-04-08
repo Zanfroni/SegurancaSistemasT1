@@ -1,8 +1,9 @@
-import os, sys
+import os, sys, time
 
-def getKeySize(cipFile):
-    
-    alphabet = {
+targetIc = 0.072723
+size = 10
+icList = []
+alphabet = {
         'a': 0,
         'b': 0,
         'c': 0,
@@ -31,29 +32,79 @@ def getKeySize(cipFile):
         'z': 0
     }
     
-    for letter in cipFile:
-        print(letter)
-        alphabet[letter] = alphabet.get(letter) + 1
+probableKeySize = {
+        1: 0,
+        2: 0,
+        3: 0,
+        4: 0,
+        5: 0,
+        6: 0,
+        7: 0,
+        8: 0,
+        9: 0,
+        10: 0,
+        11: 0,
+        12: 0,
+        13: 0,
+        14: 0,
+        15: 0,
+        16: 0,
+        17: 0,
+        18: 0,
+        19: 0,
+        20: 0,
+        21: 0,
+        22: 0,
+        23: 0,
+        24: 0,
+        25: 0,
+        26: 0,
+    }
     
-    
-    print('\n\n\n\n\n\n')
 
-    for shit in alphabet:
-        print(shit + ' ' + str(alphabet.get(shit)))
+def getKeySize(cipFile):
     
-    print('\n\n\n\n\n\n')
-    print('beleza')
+    global size
+
+    for m in range(1,size+1):
+        
+        i = 0
+        for i in range(m):
+            
+            countChars(cipFile,i,m)
+        
+        average = Average(icList)
+        icList.clear()
+        
+        probableKeySize[m] = average
+        average = 0       
     
-    print('to fazendo essa porra do caralho inicialmente só pra m=1')
+    return bestSize()
     
-    n = len(cipFile)*(len(cipFile)-1)
-    totalSum = 0
+def countChars(cipFile,i,m):
+    
+    global alphabet, icList
+    
+    n = 0
+    charSum = 0
+    for char in cipFile[i::m]:
+        alphabet[char] = alphabet.get(char) + 1
+        n+=1
     
     for letter in alphabet:
-        totalSum += alphabet.get(letter)*(alphabet.get(letter)-1)
+        charSum += alphabet.get(letter)*(alphabet.get(letter)-1)
+        alphabet[letter] = 0
+        
+    ic = charSum/(n*(n-1))
+    icList.append(ic)
+
+def Average(icList):
+    return sum(icList) / len(icList)
+
+def bestSize():
     
-    ic = totalSum/n
+    global probableKeySize
     
-    print('%.5f' % ic)
-    
-    return 0;
+    # https://stackoverflow.com/questions/18197359/python-dict-find-value-closest-to-x
+    key, value = min(probableKeySize.items(), key=lambda kv : abs(kv[1] - targetIc))
+    return key
