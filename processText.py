@@ -12,5 +12,5 @@ def read(inp):
         error(1)
 
 def verifySize(text):
-    if len(text) <= 6: return False
+    if len(text) <= 30: return False
     return True

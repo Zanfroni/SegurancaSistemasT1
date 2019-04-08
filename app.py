@@ -3,6 +3,7 @@ import os
 from processText import read
 from processText import verifySize
 from errorMessages import error
+from getKeySize import getKeySize
 
 def app():
     os.system('clear')
@@ -11,8 +12,10 @@ def app():
     print('- A extensao do mesmo deve ser digitada junto\n')
     cipFile = read(input())
     print(cipFile)                                                            #DEBBUGING THINGS N' SHIT
+    print(len(cipFile))
     if not verifySize(cipFile): error(2)
     print('passei')
+    getKeySize(cipFile)
 
 if __name__ == "__main__":
     app()
