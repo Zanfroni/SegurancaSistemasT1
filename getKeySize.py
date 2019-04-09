@@ -83,7 +83,7 @@ def getKeySize(cipFile):
     
 def countChars(cipFile,i,m):
     
-    global alphabet, icList
+    global alphabet
     
     n = 0
     charSum = 0

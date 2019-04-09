@@ -4,6 +4,7 @@ from processText import read
 from processText import verifySize
 from errorMessages import error
 from getKeySize import getKeySize
+from decipher import decipher
 
 def app():
     os.system('clear')
@@ -14,6 +15,7 @@ def app():
     if not verifySize(cipFile): error(2)
     keySize = getKeySize(cipFile)
     print('Keysize = ' + str(keySize))
+    decipher(cipFile,keySize)
 
 if __name__ == "__main__":
     app()
@@ -23,9 +25,12 @@ if __name__ == "__main__":
 # TODO
 
 '''
-- Em segundo lugar, preciso percorrer com três caracteres o texto encontrando padrões cujo tamanho divida pela distância
-- Se der com sucesso, reparte nas colunas
-- Beleza, realiza análise de frequência (ainda vou ver mais a fundo)
-- Display o texto claro. Se estiver insatisfeito, pode daí aumentar pra tentar decifrar com maior tamanho
-- Se chegar ao fim do texto, termina com resultado falho!
+- Imprimir as coincidências das chaves
+- Implementar a análise de frequência
+- Decifrar o texto
+- Escrever o texto decifrado em um .txt
+'''
+
+'''
+- lowercase everything? even the extension
 '''
