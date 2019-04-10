@@ -8,6 +8,12 @@ def error(index):
         print('Reinicie o programa e tente novamente!\n')
     if index == 2:
         print('Tamanho de texto invalido!')
-        print('Texto deve ter no minimo mais de 6 caracteres!\n')
+        print('Texto deve ter no minimo mais de 30 caracteres!\n')
+    if index == 3:
+        print('Erro durante escrita do texto em arquivo!')
+        print('Verifique o texto de entrada e tente novamente!\n')
+    if index == 4:
+        print('Linguagem invalida!')
+        print('Digite corretamente da proxima vez!\n')
     
     sys.exit()
