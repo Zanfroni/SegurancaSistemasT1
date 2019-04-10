@@ -1,5 +1,6 @@
 import os, sys, time
 
+# targetIc e o indice de coincidencia do Idioma escolhido. ELE DEVE ESTAR CORRETO
 targetIc = 0.072723
 size = 10
 icList = []
@@ -107,4 +108,6 @@ def bestSize():
     
     # https://stackoverflow.com/questions/18197359/python-dict-find-value-closest-to-x
     key, value = min(probableKeySize.items(), key=lambda kv : abs(kv[1] - targetIc))
+    
+    # mete dict to list, list sorted do caralho e faz o cara poder escolher!!
     return key
