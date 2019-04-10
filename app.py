@@ -1,5 +1,7 @@
 import os
 
+from time import sleep
+
 from processText import read
 from processText import verifySize
 from processText import getClearText
@@ -19,10 +21,15 @@ def app():
     cipFile = rawFile.lower()
     if not verifySize(cipFile): error(2)
     keySize = getKeySize(cipFile)
-    print('Keysize = ' + str(keySize))
+    os.system('clear')
+    print('CHAVE ENCONTRADA!!!')
+    print('Tamanho da chave = ' + str(keySize))
+    sleep(1)
     print('\n\nDigite agora a linguagem (portugues, digite 1 e ingles, digite 2): ', end = '')
     language = int(input())
+    os.system('clear')
     key = decipher(cipFile,keySize,language)
+    os.system('clear')
     print('Chave encontrada: ' + key)
     text = getClearText(cipFile,key)
     write(text)
