@@ -1,8 +1,24 @@
-import os, sys, time
+''' 
+AVISO: O codigo DEVE ser executado usando Python3 (python3 app.py)
+OBSERVACAO: Se existir um arquivo chamado "output.txt" no diretorio, o mesmo sera apagado
+'''
 
-# targetIc e o indice de coincidencia do Idioma escolhido. ELE DEVE ESTAR CORRETO
-targetIc = 0.072723
-size = 10
+''' Bibliotecas nativas do Python importadas '''
+import os
+from time import sleep
+
+# ESTE E A FUNCAO QUE APLICA INDICE DE COINCIDENCIA E RETORNA O TAMANHO DA CHAVE,
+# ESCOLHIDO PELO USUARIO
+
+''' VARIAVEIS GLOBAIS '''
+# Indices de Coincidencia das linguagens
+# targetIc vira o indice de acordo com a
+# escolha do usuario em app.py
+portuguese = 0.072723
+english = 0.0686
+targetIc = 0
+
+# Listas e Dicionarios auxiliares usados para calcular os indices
 icList = []
 alphabet = {
         'a': 0,
@@ -33,6 +49,8 @@ alphabet = {
         'z': 0
     }
     
+# Este dicionario ira conter os indices finais
+# para medir e escolher o tamanho da chave
 probableKeySize = {
         1: 0,
         2: 0,
@@ -62,11 +80,31 @@ probableKeySize = {
         26: 0,
     }
     
-
-def getKeySize(cipFile):
+# Tamanho maximo de chave que este algoritmo trabalha e 26
+# size serve como restritor, logo, apenas o definiu como o
+# tamanho do alfabeto em questao mesmo
+size = len(alphabet)
+   
     
-    global size
+    
+    
+    
+''' ALGORITMO DE ENCONTRAR O TAMANHO DA CHAVE '''
 
+# Inicio
+def getKeySize(cipFile,languageIndex):
+    
+    global size, targetIc
+    
+    # Define a linguagem
+    if languageIndex == 1: targetIc = portuguese
+    elif languageIndex == 2: targetIc = english
+    else: error(4)
+    
+    # Aqui ele conta os indices por cada coset
+    # Faz a media dos indices usando Average()
+    # Finalmente, retorna o candidato escolhido
+    # pelo usuario no bestSize()
     for m in range(1,size+1):
         
         i = 0
@@ -82,6 +120,11 @@ def getKeySize(cipFile):
     
     return bestSize()
     
+# Funcao que conta os caracteres do intervalo coset
+# definido. Aproveita e aplica a formula do indice de coincidencia
+# e insere a soma para a chave de tamanho m na lista,
+# faltando apenas fazer a media para ter o indice, que sera
+# feita pelo Average()
 def countChars(cipFile,i,m):
     
     global alphabet
@@ -99,15 +142,70 @@ def countChars(cipFile,i,m):
     ic = charSum/(n*(n-1))
     icList.append(ic)
 
+# Apenas faz a media do indice para o coset.
+# Por exemplo, se o coset e 3 (ABC DEF GHI)
+# ele faz a media destes todos, obtendo
+# o indice de coincidencia. Retorna ele
+# que sera guardado na lista de indices
+# que sera escolhida pelo usuario no bestSize()
 def Average(icList):
     return sum(icList) / len(icList)
 
+# Funcao mais interface, que vai pegando os melhores candidatos
+# do indice de coincidencia e dando a opcao do usuario escolher
+# ele ou descartar e seguir para o proximo melhor
+# Pensou-se em implementar esta escolha, ja que Vigenere nem
+# sempre e um processo consistente dependendo do texto, ja que
+# ele trabalha com possibilidade, entao nem sempre o melhor candidato
+# e o correto
 def bestSize():
     
     global probableKeySize
     
-    # https://stackoverflow.com/questions/18197359/python-dict-find-value-closest-to-x
-    key, value = min(probableKeySize.items(), key=lambda kv : abs(kv[1] - targetIc))
+    os.system('clear')
+    print('AVALIADO!!')
+    sleep(1)
+    print('\n\n')
+    done = 0
+    best = ''
     
-    # mete dict to list, list sorted do caralho e faz o cara poder escolher!!
+    while done != 1 and done != 2:
+        
+        # https://stackoverflow.com/questions/18197359/python-dict-find-value-closest-to-x
+        key, _ = min(probableKeySize.items(), key=lambda kv : abs(kv[1] - targetIc))
+        
+        print('Melhor concorrente foi ' + str(key))
+        print('Digite 1 para escolher e 0 para negar e ir para o proximo melhor')
+        choice = int(input())
+        if choice == 1:
+            done = 2
+            break
+        elif choice == 0:
+            done = 1
+            del probableKeySize[key]
+        else:
+            os.system('clear')
+            print('Escolha invalida. Tente novamente.\n')
+    
+    i = 1
+    os.system('clear')
+    while (i < len(alphabet)) and (done != 2):
+        
+        # https://stackoverflow.com/questions/18197359/python-dict-find-value-closest-to-x
+        key, _ = min(probableKeySize.items(), key=lambda kv : abs(kv[1] - targetIc))
+        
+        print('Proximo concorrente foi ' + str(key))
+        print('Digite 1 para escolher e 0 para negar e ir para o proximo melhor')
+        choice = int(input())
+        if choice == 1:
+            done = 2
+            break
+        elif choice == 0:
+            i += 1
+            del probableKeySize[key]
+        else:
+            os.system('clear')
+            print('Escolha invalida. Tente novamente.\n')
+            
+    os.system('clear')
     return key

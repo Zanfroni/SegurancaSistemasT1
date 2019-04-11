@@ -1,4 +1,11 @@
-import sys,os,time
+''' 
+AVISO: O codigo DEVE ser executado usando Python3 (python3 app.py)
+OBSERVACAO: Se existir um arquivo chamado "output.txt" no diretorio, o mesmo sera apagado
+'''
+
+# ESTA FUNCAO SERVE APENAS COMO UM CONVERSOR. ELA GUARDA DICIONARIOS QUE REPRESENTAM O CARACTER COM O NUMERO
+# E VICE-VERSA. APENAS PARA GARANTIR UMA CONVERSAO MAIS FACIL.
+# alph SERVE COMO UMA LISTA COM O ALFABETO CASO PRECISE SER IMPORTADO SEM PRECISAR DECLARAR NO CODIGO (decipher o importa para um loop)
 
 alph = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z']
 x2back = {
